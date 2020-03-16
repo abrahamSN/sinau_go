@@ -6,8 +6,8 @@ import (
 	"net"
 	"sync"
 
-	// import generated protobuf code
-	pb "github.com/abrahamSN/sinau_go/proto/consignment/consignment.pb.go"
+	// Import the generated protobuf code
+	pb "github.com/abrahamSN/sinau_go/proto/consignment"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -36,7 +36,7 @@ func (repo *Repository) Create(consignment *pb.Consignment) (*pb.Consignment, er
 	return consignment, nil
 }
 
-// Service should implement all of the methids to satisfy the service
+// Service should implement all of the methods to satisfy the service
 // we defined in our protobuf definition. You can check the interface
 // in the generated code itself for the exact method signatures etc
 // to give you a better idea.
@@ -44,10 +44,11 @@ type service struct {
 	repo repository
 }
 
-// CreateConsignment - we created just one method on our service
+// CreateConsignment - we created just one method on our service,
 // which is a create method, which takes a context and a request as an
 // argument, these are handled by the gRPC server.
 func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*pb.Response, error) {
+
 	// Save our consignment
 	consignment, err := s.repo.Create(req)
 	if err != nil {
@@ -60,17 +61,18 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*
 }
 
 func main() {
+
 	repo := &Repository{}
 
 	// Set-up our gRPC server.
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("failed to listenL %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 
 	// Register our service with the gRPC server, this will tie our
-	// implementation into the auto-generated interface code for out
+	// implementation into the auto-generated interface code for our
 	// protobuf definition.
 	pb.RegisterShippingServiceServer(s, &service{repo})
 
