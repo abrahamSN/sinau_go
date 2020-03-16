@@ -7,7 +7,7 @@ import (
 	"sync"
 
 	// import generated protobuf code
-	pb "gitlab.com/mascode/sinau_go/proto/consignment/consignment.pb.go"
+	pb "github.com/abrahamSN/sinau_go/proto/consignment/consignment.pb.go"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -60,7 +60,7 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment) (*
 }
 
 func main() {
-	repo := &Repository()
+	repo := &Repository{}
 
 	// Set-up our gRPC server.
 	lis, err := net.Listen("tcp", port)

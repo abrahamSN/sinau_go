@@ -1,4 +1,4 @@
-module gitlab.com/mascode/sinau_go
+module github.com/abrahamSN/sinau_go
 
 go 1.14
 
